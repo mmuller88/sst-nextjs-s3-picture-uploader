@@ -14,18 +14,15 @@ export default async function Home() {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Create an S3 client
     const client = new S3Client({ region: "us-east-1" });
 
-    // Set up the command with the necessary parameters
     const command = new PutObjectCommand({
       Bucket: Bucket.public.bucketName,
       Key: file.name,
       Body: buffer,
-      ACL: "public-read", // or whatever permissions you want to set
+      ACL: "public-read",
     });
 
-    // Send the command
     await client.send(command);
 
     console.log(`Uploaded ${file.name} to S3`);
